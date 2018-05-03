@@ -1,0 +1,28 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "autoscaling:CompleteLifecycleAction",
+                "autoscaling:DeleteLifecycleHook",
+                "autoscaling:DescribeAutoScalingGroups",
+                "autoscaling:DescribeAutoScalingInstances",
+                "autoscaling:DescribeLoadBalancers",
+                "autoscaling:DescribeLifecycleHooks",
+                "autoscaling:PutLifecycleHook",
+                "autoscaling:RecordLifecycleActionHeartbeat",
+                "autoscaling:UpdateAutoScalingGroup",
+                "autoscaling:EnterStandby",
+                "autoscaling:ExitStandby",
+                "ec2:DescribeInstances",
+                "ec2:DescribeInstanceStatus",
+                "tag:GetTag*",
+                "tag:GetResources",
+                "sns:Publish",
+                "sts:AssumeRole"
+            ],
+            "Resource": "*"
+        }
+    ]
+}

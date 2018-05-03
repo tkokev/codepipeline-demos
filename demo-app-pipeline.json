@@ -1,0 +1,64 @@
+{
+    "pipeline": {
+        "name": "demo-app",
+        "roleArn": "arn:aws:iam::YOURACCOUNTNUMER:role/codepipeline-service-role",
+        "artifactStore": {
+            "type": "S3",
+            "location": "codepipeline-us-east-1-DATE"
+        },
+        "stages": [
+            {
+                "name": "Source",
+                "actions": [
+                    {
+                        "name": "Source",
+                        "actionTypeId": {
+                            "category": "Source",
+                            "owner": "AWS",
+                            "provider": "CodeCommit",
+                            "version": "1"
+                        },
+                        "runOrder": 1,
+                        "configuration": {
+                            "BranchName": "master",
+                            "PollForSourceChanges": "false",
+                            "RepositoryName": "demo-app"
+                        },
+                        "outputArtifacts": [
+                            {
+                                "name": "MyApp"
+                            }
+                        ],
+                        "inputArtifacts": []
+                    }
+                ]
+            },
+            {
+                "name": "Staging",
+                "actions": [
+                    {
+                        "name": "demo-app-east",
+                        "actionTypeId": {
+                            "category": "Deploy",
+                            "owner": "AWS",
+                            "provider": "CodeDeploy",
+                            "version": "1"
+                        },
+                        "runOrder": 1,
+                        "configuration": {
+                            "ApplicationName": "demo-app",
+                            "DeploymentGroupName": "demo-app-east"
+                        },
+                        "outputArtifacts": [],
+                        "inputArtifacts": [
+                            {
+                                "name": "MyApp"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "version": 1
+    }
+}

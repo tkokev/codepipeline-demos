@@ -1,0 +1,51 @@
+version: 0.0
+os: linux
+files:
+  - source: /index.html
+    destination: /var/www/html/
+  - source: /release.html
+    destination: /var/www/html/
+  - source: /
+    destination: /root
+permissions:
+  - object:  /var/www/html/
+    pattern: "index.html"
+    owner: root
+    group: root
+    mode: 755
+    type:
+      - file
+  - object:  /var/www/html/
+    pattern: "release.html"
+    owner: root
+    group: root
+    mode: 755
+    type:
+      - file
+hooks:
+  BeforeInstall:
+    - location: scripts/run_security_updates.sh
+      timeout: 300
+      runas: root
+    - location: scripts/install_deps.sh
+      timeout: 300
+      runas: root
+  AfterInstall:
+    - location: scripts/app_release.py
+      timeout: 300
+      runas: root
+    - location: scripts/change_permissions.sh
+      timeout: 300
+      runas: root
+  ApplicationStart:
+    - location: scripts/start_server.sh
+      timeout: 300
+      runas: root
+  ApplicationStop:
+    - location: scripts/stop_server.sh
+      timeout: 300
+      runas: root
+  ValidateService:
+    - location: scripts/validate.sh
+      timeout: 300
+      runas: root
