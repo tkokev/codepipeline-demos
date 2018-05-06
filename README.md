@@ -94,7 +94,7 @@ Here is some asci art showing the relationship between files in this repo and se
     ```bash
     VPCID=changeme
     subnetids=( $(aws ec2 describe-subnets --filters Name=tag-value,Values=*pub* --query '*[].SubnetId' --output text) )
-    elbarn=$(aws elbv2 create-load-balancer --name demo-app-elb --subnets ${subnetids[@]} --security-groups $sgid --query *[].LoadBalancerArn --output text)
+    elbarn=$(aws elbv2 create-load-balancer --name demo-app --subnets ${subnetids[@]} --security-groups $sgid --query *[].LoadBalancerArn --output text)
     targetarn=$(aws elbv2 create-target-group --name demo-app --protocol HTTP --port 80 --vpc-id $VPCID)
     aws elbv2 create-listener --load-balancer-arn $elbarn --protocol HTTP --port 80 --default-actions Type=forward,TargetGroupArn=$targetarn --query *[].TargetGroupArn
     ```
