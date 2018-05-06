@@ -12,7 +12,7 @@ Here is some asci art showing the relationship between files in this repo and se
     |--Deploy: CodeDeploy
         |--iam user "demo-app-SRE"
         |   |--./aws-policies/codedeploy-user.json
-        |--S3 "demo-app"
+        |--S3 "demo-app-<DATE>"
         |--App name "demo-app"
             |--Deploy group "demo-app-group"
                 |--blue/green
@@ -63,15 +63,15 @@ Here is some asci art showing the relationship between files in this repo and se
     User APKAEIBAERJR2EXAMPLE
     IdentityFile ~/.ssh/userprivatekey.pem
     ```
-1. ran these commands on dev box used to create repo contents
+1. run these commands on dev box used to create repo contents
     ```bash
     git clone ssh://APKAEIBAERJR2EXAMPLE@git-codecommit.us-east-1.amazonaws.com/v1/repos/demo-app
     ```
 1. copy the contents of this repo into your code commit repo
-1. create an s3 bucket for deploygroup??
-    * demo-app-DATE
+1. create an s3 bucket for deploygroup
+    * demo-app-<DATE>
     ```bash
-    aws s3 mb s3://demo-app-$(date)
+    aws s3 mb s3://demo-app-$(date +%Y%m%d)
     ```
 1. create sg for elb
     * name = demo-app-elb
@@ -136,7 +136,7 @@ Here is some asci art showing the relationship between files in this repo and se
 
     subnetids=( $(aws ec2 describe-subnets --filters Name=tag-value,Values=*pub* --query '*[].SubnetId' --output text) )
 
-    aws autoscaling create-auto-scaling-group --auto-scaling-group-name demo-asg --min-size 1 --max-size 2 --launch-configuration-name demo-app-lc --vpc-zone-identifier $(echo ${subnetids[@]} | tr ' ' ',')
+    aws autoscaling create-auto-scaling-group --auto-scaling-group-name demo-app-asg --min-size 1 --max-size 2 --launch-configuration-name demo-app-lc --vpc-zone-identifier $(echo ${subnetids[@]} | tr ' ' ',')
     ```
 1. create codedeploy app <https://docs.aws.amazon.com/codedeploy/latest/userguide/getting-started-codedeploy.html>
     * name = demo-app
@@ -153,11 +153,15 @@ Here is some asci art showing the relationship between files in this repo and se
 
     aws deploy create-application --application-name demo-app
     #
-    aws deploy create-deployment-group --application-name demo-pp --ec2-tag-filters Key=ec2-tag-key,Type=KEY_AND_VALUE,Value=ec2-tag-value --on-premises-tag-filters Key=on-premises-tag-key,Type=KEY_AND_VALUE,Value=on-premises-tag-value --deployment-group-name demo-DepGrp --service-role-arn $arn
+    aws deploy create-deployment-group --application-name demo-app --deployment-group-name demo-app-bluegreen --deployment-style deploymentType=BLUE_GREEN,deploymentOption=WITH_TRAFFIC_CONTROL --blue-green-deployment-configuration 'terminateBlueInstancesOnDeploymentSuccess={action=TERMINATE,terminationWaitTimeInMinutes=5},deploymentReadyOption={actionOnTimeout="STOP_DEPLOYMENT",waitTimeInMinutes=0},greenFleetProvisioningOption={action="COPY_AUTO_SCALING_GROUP"}' --auto-scaling-groups demo-asg --load-balancer-info elbInfoList=[{name=demo-app}] --auto-rollback-configuration enabled=true,events="DEPLOYMENT_FAILURE","DEPLOYMENT_STOP_ON_REQUEST" --service-role-arn $arn
 
     #deploy build to test new configs
-    aws deploy push --application-name demo-app --s3-location s3://demo-app-<DATE>/demo-app --source .
-    aws deploy create-deployment --application-name demo-app --s3-location bucket=demo-app-<DATE>,key=demo-app,bundleType=zip,eTag=FOO --deployment-group-name demo-app-east --deployment-config-name CodeDeployDefault.OneAtATime --description test-the-new-app
+    aws deploy push --application-name demo-app --s3-location s3://demo-app-$(date +%Y%m%d)/demo-app --source .
+    aws deploy create-deployment --application-name demo-app --s3-location bucket=demo-app-$(date +%Y%m%d),key=demo-app,bundleType=zip,eTag=FOO --deployment-group-name demo-app-bluegreen --deployment-config-name CodeDeployDefault.OneAtATime --description test-the-new-app
+    ```
+1. (opt) the `demo-app-DATE` bucket is no longer needed but can be kept for future manual deploys
+    ```bash
+    aws s3 rm s3://demo-app-$(date +%Y%m%d)
     ```
 1. create codepipeline
     * name = demo-app
@@ -178,4 +182,4 @@ Here is some asci art showing the relationship between files in this repo and se
     aws codepipeline create-pipeline --cli-input-json file://demo-app-pipeline.json
     ```
 
-    To see how to add Slack notifications, follow SLACK.md.
+    To see how to add Slack notifications, follow [SLACK](slack/SLACK.md).
