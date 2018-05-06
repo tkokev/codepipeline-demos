@@ -69,7 +69,7 @@ Here is some asci art showing the relationship between files in this repo and se
     ```
 1. copy the contents of this repo into your code commit repo
 1. create an s3 bucket for deploygroup
-    * demo-app-<DATE>
+    * demo-app-DATE
     ```bash
     aws s3 mb s3://demo-app-$(date +%Y%m%d)
     ```
