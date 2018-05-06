@@ -159,10 +159,12 @@ Here is some asci art showing the relationship between files in this repo and se
     aws deploy push --application-name demo-app --s3-location s3://demo-app-$(date +%Y%m%d)/demo-app --source .
     aws deploy create-deployment --application-name demo-app --s3-location bucket=demo-app-$(date +%Y%m%d),key=demo-app,bundleType=zip,eTag=FOO --deployment-group-name demo-app-bluegreen --deployment-config-name CodeDeployDefault.OneAtATime --description test-the-new-app
     ```
-1. (opt) the `demo-app-DATE` bucket is no longer needed but can be kept for future manual deploys
-    ```bash
-    aws s3 rm s3://demo-app-$(date +%Y%m%d)
-    ```
+1. prep the codepipeline JSON file with your account specifics
+```bash
+ACC_NUM=CHANGEME
+sed -i "s/YOURACCOUNTNUMER/$ACC_NUM/g" demo-app-pipeline.json
+sed -i "s/DATE/$(date +%Y%m%d)/g" demo-app-pipeline.json
+```
 1. create codepipeline
     * name = demo-app
     * source = codecommit
