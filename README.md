@@ -141,10 +141,10 @@ Here is some asci art showing the relationship between files in this repo and se
 1. create codedeploy app <https://docs.aws.amazon.com/codedeploy/latest/userguide/getting-started-codedeploy.html>
     * name = demo-app
     * compute = ec2
-    * deploy group = demo-app-east
+    * deploy group = demo-app-bluegreen
     * deploy type = blue/green
     * env config = auto copy asg
-    * asg name = demo-aapp
+    * asg name = demo-app-asg
     * elb = demo-app
     rollback = when dep fails
     * service role arn = arn of demo-app-codedeploy-service-role created above
