@@ -153,7 +153,7 @@ Here is some asci art showing the relationship between files in this repo and se
 
     aws deploy create-application --application-name demo-app
     #
-    aws deploy create-deployment-group --application-name demo-app --deployment-group-name demo-app-bluegreen --deployment-style deploymentType=BLUE_GREEN,deploymentOption=WITH_TRAFFIC_CONTROL --blue-green-deployment-configuration 'terminateBlueInstancesOnDeploymentSuccess={action=TERMINATE,terminationWaitTimeInMinutes=5},deploymentReadyOption={actionOnTimeout="STOP_DEPLOYMENT",waitTimeInMinutes=0},greenFleetProvisioningOption={action="COPY_AUTO_SCALING_GROUP"}' --auto-scaling-groups demo-asg --load-balancer-info elbInfoList=[{name=demo-app}] --auto-rollback-configuration enabled=true,events="DEPLOYMENT_FAILURE","DEPLOYMENT_STOP_ON_REQUEST" --service-role-arn $arn
+    aws deploy create-deployment-group --application-name demo-app --deployment-group-name demo-app-bluegreen --deployment-style deploymentType=BLUE_GREEN,deploymentOption=WITH_TRAFFIC_CONTROL --blue-green-deployment-configuration 'terminateBlueInstancesOnDeploymentSuccess={action=TERMINATE,terminationWaitTimeInMinutes=5},deploymentReadyOption={actionOnTimeout="STOP_DEPLOYMENT",waitTimeInMinutes=0},greenFleetProvisioningOption={action="COPY_AUTO_SCALING_GROUP"}' --auto-scaling-groups demo-app-asg --load-balancer-info elbInfoList=[{name=demo-app}] --auto-rollback-configuration enabled=true,events="DEPLOYMENT_FAILURE","DEPLOYMENT_STOP_ON_REQUEST" --service-role-arn $arn
 
     #deploy build to test new configs
     aws deploy push --application-name demo-app --s3-location s3://demo-app-$(date +%Y%m%d)/demo-app --source .
