@@ -1,7 +1,7 @@
 {
     "pipeline": {
         "name": "demo-app",
-        "roleArn": "arn:aws:iam::YOURACCOUNTNUMER:role/codepipeline-service-role",
+        "roleArn": "arn:aws:iam::YOURACCOUNTNUM:role/codepipeline-service-role",
         "artifactStore": {
             "type": "S3",
             "location": "demo-app-DATE"
