@@ -76,6 +76,10 @@ Here is some asci art showing the relationship between files in this repo and se
 1. create sg for elb
     * name = demo-app-elb
     * ports = http
+    ```bash
+    sgid=$(aws ec2 create-security-group --group-name demo-app-elb --description demo-app-elb --vpc-id CHANGEME --output text)
+    aws ec2 authorize-security-group-ingress --group-id $sgid --protocol tcp --port 80 --cidr "0.0.0.0/0"
+    ```
 1. create elb
     * type = http https
     * name = demo-app
@@ -104,6 +108,7 @@ Here is some asci art showing the relationship between files in this repo and se
     aws iam put-role-policy --role-name demo-app-ec2-instance-profile --policy-name demo-app-ec2-permissions --policy-document file://aws-policies/codedeploy-ec2.json
     aws iam create-instance-profile --instance-profile-name demo-app-ec2-instance-profile
     aws iam add-role-to-instance-profile --instance-profile-name demo-app-ec2-instance-profile --role-name demo-app-ec2-instance-profile
+    ```
 1. create iam role
     * name = demo-app-codedeploy
     * managed policies =
