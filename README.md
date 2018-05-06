@@ -77,7 +77,8 @@ Here is some asci art showing the relationship between files in this repo and se
     * name = demo-app-elb
     * ports = http
     ```bash
-    sgid=$(aws ec2 create-security-group --group-name demo-app-elb --description demo-app-elb --vpc-id CHANGEME --output text)
+    VPCID=changeme
+    sgid=$(aws ec2 create-security-group --group-name demo-app-elb --description demo-app-elb --vpc-id $VPCID --output text)
     aws ec2 authorize-security-group-ingress --group-id $sgid --protocol tcp --port 80 --cidr "0.0.0.0/0"
     ```
 1. create elb
@@ -90,6 +91,13 @@ Here is some asci art showing the relationship between files in this repo and se
     * target group = new
     * target name = demo-app
     * register targets = leave empty
+    ```bash
+    VPCID=changeme
+    subnetids=( $(aws ec2 describe-subnets --filters Name=tag-value,Values=*pub* --query '*[].SubnetId' --output text) )
+    elbarn=$(aws elbv2 create-load-balancer --name demo-app-elb --subnets ${subnetids[@]} --security-groups $sgid --query *[].LoadBalancerArn --output text)
+    targetarn=$(aws elbv2 create-target-group --name demo-app --protocol HTTP --port 80 --vpc-id $VPCID)
+    aws elbv2 create-listener --load-balancer-arn $elbarn --protocol HTTP --port 80 --default-actions Type=forward,TargetGroupArn=$targetarn --query *[].TargetGroupArn
+    ```
 1. create iam policies, profiles & roles
     * Role Name = demo-app-codedeploy-service-role
         * Policies
@@ -158,7 +166,7 @@ Here is some asci art showing the relationship between files in this repo and se
 
     aws deploy create-application --application-name demo-app
     #
-    aws deploy create-deployment-group --application-name demo-app --deployment-group-name demo-app-bluegreen --deployment-style deploymentType=BLUE_GREEN,deploymentOption=WITH_TRAFFIC_CONTROL --blue-green-deployment-configuration 'terminateBlueInstancesOnDeploymentSuccess={action=TERMINATE,terminationWaitTimeInMinutes=5},deploymentReadyOption={actionOnTimeout="STOP_DEPLOYMENT",waitTimeInMinutes=0},greenFleetProvisioningOption={action="COPY_AUTO_SCALING_GROUP"}' --auto-scaling-groups demo-app-asg --load-balancer-info elbInfoList=[{name=demo-app}] --auto-rollback-configuration enabled=true,events="DEPLOYMENT_FAILURE","DEPLOYMENT_STOP_ON_REQUEST" --service-role-arn $arn
+    aws deploy create-deployment-group --application-name demo-app --deployment-group-name demo-app-bluegreen --deployment-style deploymentType=BLUE_GREEN,deploymentOption=WITH_TRAFFIC_CONTROL --blue-green-deployment-configuration 'terminateBlueInstancesOnDeploymentSuccess={action=TERMINATE,terminationWaitTimeInMinutes=5},deploymentReadyOption={actionOnTimeout="STOP_DEPLOYMENT",waitTimeInMinutes=0},greenFleetProvisioningOption={action="COPY_AUTO_SCALING_GROUP"}' --auto-scaling-groups demo-app-asg --load-balancer-info targetGroupInfoList=[{name=demo-app}] --auto-rollback-configuration enabled=true,events="DEPLOYMENT_FAILURE","DEPLOYMENT_STOP_ON_REQUEST" --service-role-arn $arn
 
     #deploy build to test new configs
     aws deploy push --application-name demo-app --s3-location s3://demo-app-$(date +%Y%m%d)/demo-app --source .
@@ -166,7 +174,7 @@ Here is some asci art showing the relationship between files in this repo and se
     ```
 1. prep the codepipeline JSON file with your account specifics
 ```bash
-ACC_NUM=CHANGEME
+ACC_NUM=$(aws sts get-caller-identity --output text --query 'Account')
 sed -i "s/YOURACCOUNTNUMER/$ACC_NUM/g" demo-app-pipeline.json
 sed -i "s/DATE/$(date +%Y%m%d)/g" demo-app-pipeline.json
 ```

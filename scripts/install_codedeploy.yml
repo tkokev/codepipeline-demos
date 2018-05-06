@@ -44,3 +44,4 @@ runcmd:
   - chmod +x ./install
   - ./install auto
   - service codedeploy-agent start
+  - systemctl enable codedeploy-agent
