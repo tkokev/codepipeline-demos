@@ -7,7 +7,7 @@ Here is some asci art showing the relationship between files in this repo and se
 --CodePipeline "demo-app"
     |--iam role "codepipeline-service-role"
     |   |--./aws-policies/codepipeline-service-role.json
-    |--Repo: CodeCommit "demo-app"
+    |--Repo: CodeCommit "pipeline-demo"
     |--Build: Jenkins "My Jenkins"
     |--Deploy: CodeDeploy
         |--iam user "demo-app-SRE"
@@ -35,10 +35,10 @@ Here is some asci art showing the relationship between files in this repo and se
 ```
 1. if you don't already have an AWS VPC, set up a generic one in using the `Start VPC Wizard` buttong found at <https://console.aws.amazon.com/vpc/home?region=us-east-1#>
 1. create a codecommit repo
-    * name = demo-app
+    * name = pipeline-demo
     * source = sns topic
         * new
-            * name = codecommit_demo-app
+            * name = codecommit_pipeline-demo
             * add files = https
             * Linux
 1. go to aws iam and add `AWSCodeCommitFullAccess` to the user account that will be committing code (<https://docs.aws.amazon.com/codecommit/latest/userguide/setting-up-gc.html>) OR

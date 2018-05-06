@@ -4,7 +4,7 @@
         "roleArn": "arn:aws:iam::YOURACCOUNTNUMER:role/codepipeline-service-role",
         "artifactStore": {
             "type": "S3",
-            "location": "codepipeline-us-east-1-DATE"
+            "location": "demo-app-DATE"
         },
         "stages": [
             {
@@ -22,7 +22,7 @@
                         "configuration": {
                             "BranchName": "master",
                             "PollForSourceChanges": "false",
-                            "RepositoryName": "demo-app"
+                            "RepositoryName": "pipeline-demo"
                         },
                         "outputArtifacts": [
                             {
@@ -34,10 +34,10 @@
                 ]
             },
             {
-                "name": "Staging",
+                "name": "Deploy",
                 "actions": [
                     {
-                        "name": "demo-app-east",
+                        "name": "demo-app-bluegreen",
                         "actionTypeId": {
                             "category": "Deploy",
                             "owner": "AWS",
@@ -47,7 +47,7 @@
                         "runOrder": 1,
                         "configuration": {
                             "ApplicationName": "demo-app",
-                            "DeploymentGroupName": "demo-app-east"
+                            "DeploymentGroupName": "demo-app-bluegreen"
                         },
                         "outputArtifacts": [],
                         "inputArtifacts": [
