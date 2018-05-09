@@ -198,3 +198,4 @@ sed -i "s/DATE/$(date +%Y%m%d)/g" demo-app-pipeline.json
     ```
 
     To see how to add Slack notifications, follow [SLACK](slack/SLACK.md).
+    For auto merging dev to master after passing tests, see [MERGE](merge/MERGE.md)
