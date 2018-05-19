@@ -33,7 +33,7 @@ Here is some asci art showing the relationship between files in this repo and se
                         |      |--./aws-policies/codedeploy-ec2.json
                         |--user data: ./install_codedeploy.sh
 ```
-1. if you don't already have an AWS VPC, set up a generic one in using the `Start VPC Wizard` buttong found at <https://console.aws.amazon.com/vpc/home?region=us-east-1#>
+1. if you don't already have an AWS VPC, set up a generic one in using the `Start VPC Wizard` button found at <https://console.aws.amazon.com/vpc/home?region=us-east-1#>
 1. create a codecommit repo
     * name = pipeline-demo
     * source = sns topic
