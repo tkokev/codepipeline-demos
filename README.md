@@ -2,7 +2,7 @@
 
 These instructions demonstrate how to combine AWS CodePipeline, CodeDeploy, & CodeCommit to dynamically generate a version release webpage for an application using CodeDeploy environment variables.
 
-![Release Page](https://raw.githubusercontent.com/tkokev/codepipeline-demos/masterh/demo-app-release-page.png)
+![Release Page](https://raw.githubusercontent.com/tkokev/codepipeline-demos/masterh/demo-app-release-site.png)
 
 
 Here is some asci art showing the relationship between files in this repo and services in AWS.
