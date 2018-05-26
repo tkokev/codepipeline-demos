@@ -159,9 +159,10 @@ Here is some asci art showing the relationship between files in this repo and se
     * compute = ec2
     * deploy group = demo-app-bluegreen
     * deploy type = blue/green
-    * env config = auto copy asg
-    * asg name = demo-app-asg
-    * elb = demo-app
+    * env config 
+        * app location = auto copy asg
+        * asg name = demo-app-asg
+        * elb = demo-app
     rollback = when dep fails
     * service role arn = arn of demo-app-codedeploy-service-role created above
     ```bash
