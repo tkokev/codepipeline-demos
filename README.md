@@ -134,12 +134,12 @@ Here is some asci art showing the relationship between files in this repo and se
     * iam role = demo-app-codedeploy
     * advanced
         * user data = ./install_codedeploy.sh
-        * ip = assigne public ip
+        * ip = assign public ip
     * sda1 delte on termination
     * sg = "demo-app-elb"
     * GROUP NAME = demo-app
     * size = 2
-    * netwotk = your default vpc
+    * network = your default vpc
     * subnets = your pub subs
     * keep at orig size
     * commands *replace capitalized words with your values
@@ -170,7 +170,9 @@ Here is some asci art showing the relationship between files in this repo and se
 
     aws deploy create-application --application-name demo-app
     #
-    aws deploy create-deployment-group --application-name demo-app --deployment-group-name demo-app-bluegreen --deployment-style deploymentType=BLUE_GREEN,deploymentOption=WITH_TRAFFIC_CONTROL --blue-green-deployment-configuration 'terminateBlueInstancesOnDeploymentSuccess={action=TERMINATE,terminationWaitTimeInMinutes=5},deploymentReadyOption={actionOnTimeout="STOP_DEPLOYMENT",waitTimeInMinutes=0},greenFleetProvisioningOption={action="COPY_AUTO_SCALING_GROUP"}' --auto-scaling-groups demo-app-asg --load-balancer-info targetGroupInfoList=[{name=demo-app}] --auto-rollback-configuration enabled=true,events="DEPLOYMENT_FAILURE","DEPLOYMENT_STOP_ON_REQUEST" --service-role-arn $arn
+    aws deploy create-deployment-group --application-name demo-app --deployment-group-name demo-app-bluegreen --deployment-style deploymentType=BLUE_GREEN,deploymentOption=WITH_TRAFFIC_CONTROL --blue-green-deployment-configuration 'terminateBlueInstancesOnDeploymentSuccess={action=TERMINATE,terminationWaitTimeInMinutes=10},deploymentReadyOption={actionOnTimeout="CONTINUE_DEPLOYMENT",waitTimeInMinutes=0},greenFleetProvisioningOption={action="COPY_AUTO_SCALING_GROUP"}' --auto-scaling-groups demo-app-asg --load-balancer-info targetGroupInfoList=[{name=demo-app}] --auto-rollback-configuration enabled=true,events="DEPLOYMENT_FAILURE" --service-role-arn $arn
+
+    #this can be used to see the resulting config: aws deploy get-deployment-group --deployment-group-name demo-app-bluegreen --application-name demo-app
 
     #deploy build to test new configs
     aws deploy push --application-name demo-app --s3-location s3://demo-app-$(date +%Y%m%d)/demo-app --source .
