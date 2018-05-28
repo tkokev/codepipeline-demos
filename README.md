@@ -181,7 +181,7 @@ Here is some asci art showing the relationship between files in this repo and se
 1. prep the codepipeline JSON file with your account specifics
     ```bash
     ACC_NUM=$(aws sts get-caller-identity --output text --query 'Account')
-    sed -i "s/YOURACCOUNTNUMER/$ACC_NUM/g" demo-app-pipeline.json
+    sed -i "s/YOURACCOUNTNUMBER/$ACC_NUM/g" demo-app-pipeline.json
     sed -i "s/DATE/$(date +%Y%m%d)/g" demo-app-pipeline.json
     ```
 1. create codepipeline
