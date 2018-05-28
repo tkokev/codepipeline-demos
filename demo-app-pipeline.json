@@ -22,7 +22,7 @@
                         "configuration": {
                             "BranchName": "master",
                             "PollForSourceChanges": "false",
-                            "RepositoryName": "pipeline-demo"
+                            "RepositoryName": "demo-app"
                         },
                         "outputArtifacts": [
                             {
