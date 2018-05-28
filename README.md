@@ -1,6 +1,26 @@
 # CodePipeline App Versioning Demo
 
-These instructions demonstrate how to combine AWS CodePipeline, CodeDeploy, & CodeCommit to dynamically generate a version release webpage for an application using CodeDeploy environment variables.
+## Overview
+
+These instructions demonstrate how to combine AWS CodePipeline, CodeDeploy, & CodeCommit to dynamically generate and deploy a version release webpage for an application using CodeDeploy environment variables and a blue/green deploy approach.
+
+This repo contains a minimal webpage (index.html) that represents the home page of a very simple web application, called `demo-app`, to be deployed on amazon resources using their latest Dev/Ops services. This simple website contains a single link to another minimal webpage (release.html) containing details about the `demo-app` version currently deployed. The instructions simulate one way a Dev/Ops Application Team could deploy an intial release of its `demo-app` application for customers to consume and how they can include automated versioning into the process for all future `demo-app` releases by automatically injecting CodeDeploy version related environment variables into the release.html page.
+
+## Background
+
+When an App Development Team first starts out it may not be known at the time whether their soon to be developed App will grow into a heavily depended upon component in a much larger Orginizational ecosystem. Because of that and short timelines, application versioning may not start off as a core focus. Sooner or later another Application Developement Team in the Orginization will start coding towards its services and/or API's. They may struggle or become frustrated during the process if they don't have a reliable way to determine what current version of `demo-app` is deployed on the Test or Production environment. To enable quicker adoption by other Teams and avoid Developer frustration, providing a few details about the deployed version on the web application (via html or API) itself will go a long way.
+
+## Description
+
+AWS CodeDeploy allows you to define pre, during, and post deploy actions needing performed in order for an application to be pulled from a source repo, a build artifact created, and deployment of the build artifact to a compute environment. For `demo-app`, these steps are captured in the `appspec.yml` file at the top level of this repo. Each step executes a BASH script under the `scripts` directory.
+
+The `app_release.py` python script holds most of the magic for this demonstration. When the `appspec.yml` script executes it, it looks for static pattern in the release.html file and replaces it with variables set in the ec2 operating system by the CodeDeploy agent at time of app deploy. The CodeDeploy agent is installed on the operating system by userdata (./scripts/install_codedploy.sh) defined in the Auto Scale Group (ASG) Launch Config. One of the steps in the following procedures creates the ASG that always makes sure a minimum of one instance is always online. If not, it spins up a replacement instance.
+
+During a deploy, a duplicate ASG is created and the latest App release is deployed to its instances. After passing all checks, an ELB that fronts the ASG, begins redirecting traffic destined to the older App version over to the new ASG. For a brief moment, traffic round robins between both of the App versions. The length of that time is adjustable. Finally, the older releases ASG and its instances are terminated once deployment is determined successful.
+
+## Procedures
+
+Each step below starts with the graphical method to make a change to your AWS environment followed by the AWS CLI equivalent command (for the most part). Only run one or the other but not both. If this is your first time using any of the AWS Developer service offerings (CodeDeploy, CodePipeline, CodeCommmit), it is recommended to go through the entirety using the graphical commands. Afterwards, delete everything and try only using the AWS CLI commands.
 
 ![Release Page](https://raw.githubusercontent.com/tkokev/codepipeline-demos/master/demo-app-release-site.png)
 
@@ -93,6 +113,8 @@ Here is some asci art showing the relationship between files in this repo and se
     aws ec2 authorize-security-group-ingress --group-id $sgid --protocol tcp --port 80 --cidr "0.0.0.0/0"
     ```
 1. create elb
+
+    After creating the ELB keep its A Record handy. This is the address you will browse to when checking out the deployed `demo-app` web application after all the steps below are completed.
     * type = http https
     * name = demo-app
     * vpc = your default vpc
@@ -222,7 +244,7 @@ Here is some asci art showing the relationship between files in this repo and se
     * scroll down to change detection options and expand it
     * with the Use Amazon CloudWatch Event option selected, click the Update button. this will setup an SNS topic and cloudwatch events to start your piipeline when new code is pushed into your demo-app codecommit repo.
 
-By now, your pipeline should be performing its initial deploy of your application onto a fresh instance within the ASG fronted by your ELB. If it's far enough along in the process, you should be able to browse to your ELB and see the index.html file being served by the instances apache webserver. If so, click the release hyperlink and you should see some details about the specific version of the app. If not, watch the deploy status each step along the way by browsing to CodePipeline and selecting the `details` link in the Deploy stage.
+By now, your pipeline should be performing its initial deploy of your application onto a fresh instance within the ASG fronted by your ELB. If it's far enough along in the process, you should be able to browse to your ELB and see the index.html file being served by the instances apache webserver. If so, click the release hyperlink and you should see some details about the specific version of the app. If not, watch the deploy status each step along the way by browsing to CodePipeline and selecting the `details` link in the Deploy stage. 
 
 # More demo topics coming soon...
 
