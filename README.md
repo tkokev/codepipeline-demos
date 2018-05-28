@@ -222,6 +222,8 @@ Here is some asci art showing the relationship between files in this repo and se
     * scroll down to change detection options and expand it
     * with the Use Amazon CloudWatch Event option selected, click the Update button. this will setup an SNS topic and cloudwatch events to start your piipeline when new code is pushed into your demo-app codecommit repo.
 
+By now, your pipeline should be performing its initial deploy of your application onto a fresh instance within the ASG fronted by your ELB. If it's far enough along in the process, you should be able to browse to your ELB and see the index.html file being served by the instances apache webserver. If so, click the release hyperlink and you should see some details about the specific version of the app. If not, watch the deploy status each step along the way by browsing to CodePipeline and selecting the `details` link in the Deploy stage.
+
 # More demo topics coming soon...
 
 * Deploy the above AWS CodePipeline "demo-app" using Hashicorps [TERRAFORM](terraform/TERRAFORM.md) [Infrastructure as Code tool](https://www.terraform.io/#writ) and its [AWS Provider](https://www.terraform.io/docs/providers/aws/)
