@@ -216,6 +216,11 @@ Here is some asci art showing the relationship between files in this repo and se
     aws iam create-role --role-name codepipeline-service-role --assume-role-policy-document file://aws-policies/codepipeline-service-role.json
     aws codepipeline create-pipeline --cli-input-json file://demo-app-pipeline.json
     ```
+1. Setup CodePipeline to deploy when new code is commited to demo-app codecommit.
+    * browse to the AWS Web Console and select edit next to your demo-app in CodePipeline
+    * Select the pencil next to Source to edit that stage
+    * scroll down to change detection options and expand it
+    * with the Use Amazon CloudWatch Event option selected, click the Update button. this will setup an SNS topic and cloudwatch events to start your piipeline when new code is pushed into your demo-app codecommit repo.
 
 # More demo topics coming soon...
 
