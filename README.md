@@ -38,12 +38,15 @@ Here is some asci art showing the relationship between files in this repo and se
 ```
 1. if you don't already have an AWS VPC, set up a generic one in using the `Start VPC Wizard` button found at <https://console.aws.amazon.com/vpc/home?region=us-east-1#>
 1. create a codecommit repo
-    * name = pipeline-demo
+    * name = demo-app
     * source = sns topic
         * new
             * name = codecommit_pipeline-demo
             * add files = https
             * Linux
+    ```bash
+    aws codecommit create-repository --repository-name demo-app --repository-description "Demo App from github.com/tkokev/codepipeline-demos"
+    ```
 1. go to aws iam and add `AWSCodeCommitFullAccess` to the user account that will be committing code (<https://docs.aws.amazon.com/codecommit/latest/userguide/setting-up-gc.html>) OR
 1. create an user in iam with permissions to perform all the following steps
     * name = demo-app-SRE
@@ -66,11 +69,16 @@ Here is some asci art showing the relationship between files in this repo and se
     User APKAEIBAERJR2EXAMPLE
     IdentityFile ~/.ssh/userprivatekey.pem
     ```
-1. run these commands on dev box used to create repo contents
+1. run these commands on dev box used to pull down the contents of this GitHub repo
     ```bash
-    git clone ssh://APKAEIBAERJR2EXAMPLE@git-codecommit.us-east-1.amazonaws.com/v1/repos/demo-app
+    git clone https://github.com/tkokev/codepipeline-demos.git
     ```
-1. copy the contents of this repo into your code commit repo
+1. copy the contents of this repo into your CodeCommit repo for later use
+    ```bash
+    cd codepipeline-demos
+    git remote add codecommit ssh://git-codecommit.us-east-1.amazonaws.com/v1/repos/demo-app
+    git push codecommit
+    ```
 1. create an s3 bucket for deploygroup
     * demo-app-DATE
     ```bash
@@ -183,6 +191,12 @@ Here is some asci art showing the relationship between files in this repo and se
     ACC_NUM=$(aws sts get-caller-identity --output text --query 'Account')
     sed -i "s/YOURACCOUNTNUMBER/$ACC_NUM/g" demo-app-pipeline.json
     sed -i "s/DATE/$(date +%Y%m%d)/g" demo-app-pipeline.json
+    ```
+1. Commit these changes into your CodeCommit repo
+    ```bash
+    git add demo-app-pipeline.json
+    git commit -m"add my unique VPC settings to pipeline config"
+    git push codecommit
     ```
 1. create codepipeline
     * name = demo-app
