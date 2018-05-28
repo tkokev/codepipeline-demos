@@ -179,11 +179,11 @@ Here is some asci art showing the relationship between files in this repo and se
     aws deploy create-deployment --application-name demo-app --s3-location bucket=demo-app-$(date +%Y%m%d),key=demo-app,bundleType=zip,eTag=FOO --deployment-group-name demo-app-bluegreen --deployment-config-name CodeDeployDefault.OneAtATime --description test-the-new-app
     ```
 1. prep the codepipeline JSON file with your account specifics
-```bash
-ACC_NUM=$(aws sts get-caller-identity --output text --query 'Account')
-sed -i "s/YOURACCOUNTNUMER/$ACC_NUM/g" demo-app-pipeline.json
-sed -i "s/DATE/$(date +%Y%m%d)/g" demo-app-pipeline.json
-```
+    ```bash
+    ACC_NUM=$(aws sts get-caller-identity --output text --query 'Account')
+    sed -i "s/YOURACCOUNTNUMER/$ACC_NUM/g" demo-app-pipeline.json
+    sed -i "s/DATE/$(date +%Y%m%d)/g" demo-app-pipeline.json
+    ```
 1. create codepipeline
     * name = demo-app
     * source = codecommit
@@ -203,9 +203,8 @@ sed -i "s/DATE/$(date +%Y%m%d)/g" demo-app-pipeline.json
     aws codepipeline create-pipeline --cli-input-json file://demo-app-pipeline.json
     ```
 
-    To see how to add Slack notifications, follow [SLACK](slack/SLACK.md).
-    For auto merging dev to master after passing tests, see [MERGE](merge/MERGE.md)
-
-More demo topics coming soon...
+# More demo topics coming soon...
 
 * Deploy the above AWS CodePipeline "demo-app" using Hashicorps [TERRAFORM]/(terraform/TERRAFORM.md) [Infrastructure as Code tool](https://www.terraform.io/#writ) and its [AWS Provider](https://www.terraform.io/docs/providers/aws/)
+* To see how to add Slack notifications, follow [SLACK](slack/SLACK.md).
+* For auto merging dev to master after passing tests, see [MERGE](merge/MERGE.md)
