@@ -6,11 +6,11 @@ App Developers & Testers can benefit from gettings a "heads up" notification tha
 
 WORK IN PROGRESS. CHECK BACK LATER. 
 
+Some facts about how we'll be interacting with Slack.
 * Type of integration
   * [Internal Integration](https://api.slack.com/internal-integrations)
 * Method
   * [Webhooks](https://api.slack.com/incoming-webhooks#sending_messages)
-    * curl -X POST -H 'Content-type: application/json' --data @slack/message.json https://hooks.slack.com/services/
 
 1. Using a web browser, log in to a Slack workspace where your pipeline will send messages
 2. Browse to https://api.slack.com
