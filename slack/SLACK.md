@@ -4,4 +4,7 @@ This demo builds on the "Versioning Demo" in README.md of this repo. If you have
 
 WORK IN PROGRESS. CHECK BACK LATER. 
 
-https://api.slack.com/internal-integrations
+* Type of integration
+  * [Internal Integration](https://api.slack.com/internal-integrations)
+* Method
+  * [Webhooks](https://api.slack.com/incoming-webhooks#sending_messages)
