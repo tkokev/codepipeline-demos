@@ -8,3 +8,4 @@ WORK IN PROGRESS. CHECK BACK LATER.
   * [Internal Integration](https://api.slack.com/internal-integrations)
 * Method
   * [Webhooks](https://api.slack.com/incoming-webhooks#sending_messages)
+    * curl -X POST -H 'Content-type: application/json' --data @slack/message.json https://hooks.slack.com/services/
