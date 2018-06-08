@@ -29,4 +29,6 @@ You should see the contents of `message.json` show up within in your Slack chann
 
 Now lets update the Appspec file from this repo to include a new `AfterInstall` step that will send build specific information into your teams slack channel for alerting when new deploys have rolled out.
 
+For developers, the most helpful details to see in Slack would be their last git commit comment. Here is a [conversation](https://forums.aws.amazon.com/thread.jspa?threadID=226646) about ways to grab git repo metadata.
+
 WORK IN PROGRESS. CHECK BACK LATER. 
