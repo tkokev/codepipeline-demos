@@ -2,6 +2,8 @@
 
 NOTE: This demo builds on the "Versioning Demo" covered in the top level [README](../README.md) of this repo. If you haven't already performed those steps, please do so now. They must be completed prior to continuing on with this demo.
 
+# Background
+
 App Developers & Testers can benefit from gettings a "heads up" notification that a new App version has been deployed/released to a specific environment (Test, Stage, Prod,...). This can trigger them to perform a manual validation of a new feature before promoting the change all the way to the production version of the Application. Or it can just be a way to quickly figure out what version is on what stage of the pipeline.
 
 Some facts about how we'll be interacting with Slack.
@@ -11,6 +13,8 @@ Some facts about how we'll be interacting with Slack.
   * [Webhooks](https://api.slack.com/incoming-webhooks#sending_messages)
 * Tool
   * [curl](https://curl.haxx.se/)
+
+# Procedures
 
 1. Using a web browser, log into the [Slack workspace](https://slack.com/signin) where you want AWS CodePipeline to send notifications
 1. Browse to https://api.slack.com
