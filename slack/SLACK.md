@@ -6,13 +6,14 @@ NOTE: This demo builds on the "Versioning Demo" covered in the top level [README
 
 App Developers & Testers can benefit from gettings a "heads up" notification that a new App version has been deployed/released to a specific environment (Test, Stage, Prod,...). This can trigger them to perform a manual validation of a new feature before promoting the change all the way to the production version of the Application. Or it can just be a way to quickly figure out what version is on what stage of the pipeline.
 
-Some facts about how we'll be interacting with Slack.
+Here are some facts about how we'll be interacting with Slack. In depth understanding of each is not required but check out the links if you are unfamiliar with any.
 * Type of integration
-  * [Internal Integration](https://api.slack.com/internal-integrations)
-* Method
-  * [Webhooks](https://api.slack.com/incoming-webhooks#sending_messages)
-* Tool
-  * [curl](https://curl.haxx.se/)
+  * [Slack Internal Integration](https://api.slack.com/internal-integrations)
+* Method of integration
+  * [Slack Webhooks](https://api.slack.com/incoming-webhooks#sending_messages)
+  * More [webhook](https://en.wikipedia.org/wiki/Webhook) details
+* Integration tool
+  * [curl](https://curl.haxx.se/) details
 
 ## Procedures
 
