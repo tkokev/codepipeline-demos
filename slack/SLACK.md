@@ -29,8 +29,7 @@ Here are some facts about how we'll be interacting with Slack. In depth understa
 ```
 curl -X POST -H 'Content-type: application/json' --data @message.json https://hooks.slack.com/services/<YOUR-UNIQUE-WEBHOOK-VALUE>
 ```
-
-You should see the contents of `message.json` show up within in your Slack channel!
+   * You should see the contents of `message.json` show up within in your Slack channel!
 
 Now lets update the Appspec file from this repo to include a new `AfterInstall` step that will send build specific information into your teams slack channel for alerting when new deploys have rolled out.
 
