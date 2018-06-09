@@ -1,6 +1,6 @@
 # CodePipeline Slack Integration Demo
 
-NOTE: This demo builds on the "Versioning Demo" covered in the top level [README](../README.md) of this repo. If you haven't already performed those steps, please do so now. They must be completed prior to continuing on with this demo.
+NOTE: This demo builds on the "Versioning Demo" covered in the top level [README](../README.md) of this repo. If you haven't already performed those steps, please do so now. They must be completed prior to continuing on with this demo. You must also already have a Slack account and be the Owner of a Workspace. Otherwise, they are free and easy to setup.
 
 # Background
 
