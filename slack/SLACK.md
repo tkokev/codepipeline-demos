@@ -1,6 +1,6 @@
 # CodePipeline Slack Integration Demo
 
-NOTE: This demo builds on the "Versioning Demo" in README.md of this repo. If you haven't already performed the steps captured in README.md, do so now. They must be completed prior to continuing on with this demo.
+NOTE: This demo builds on the "Versioning Demo" covered in the [README](README.md) of this repo. If you haven't already performed the steps captured in README.md, do so now. They must be completed prior to continuing on with this demo.
 
 App Developers & Testers can benefit from gettings a "heads up" notification that a new App version has been deployed/released to a specific environment (Test, Stage, Prod,...). This can trigger them to perform a manual validation of a new feature before promoting the change all the way to the production version of the Application. Or it can just be a way to quickly figure out what version is on what stage of the pipeline.
 
