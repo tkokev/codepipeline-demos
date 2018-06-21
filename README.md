@@ -249,6 +249,6 @@ By now, your pipeline should be performing its initial deploy of your applicatio
 # More demo topics coming soon...
 
 * Deploy the above AWS CodePipeline "demo-app" using Hashicorps [TERRAFORM](terraform/TERRAFORM.md) [Infrastructure as Code tool](https://www.terraform.io/#writ) and its [AWS Provider](https://www.terraform.io/docs/providers/aws/)
-* To see how to add Slack notifications, follow [SLACK](slack/SLACK.md).
+* To see how to add Slack notifications, see [SLACK](slack/SLACK.md)
 * For auto merging dev to master after passing tests, see [MERGE](merge/MERGE.md)
 * Integrate with [AWS Config](awsconfig/AWSCONFIG.md)
